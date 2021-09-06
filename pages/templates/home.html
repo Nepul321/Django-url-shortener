@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL shortener</title>
+</head>
+<body>
+    <h1>URL shortener</h1>
+
+    <form id="form">
+        {% csrf_token %}
+        <input type="url" id="link" name="link" />
+        <button>Shorten</button>
+    </form>
+    
+    <section id="url">
+        <h2>URL goes here</h2>
+    </section>
+    
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).on('submit','#form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'/create/',
+            data:{
+              link:$('#link').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function(data){
+              $('h2').html(data)
+            }
+          });
+    })
+</script> 
+</html>
